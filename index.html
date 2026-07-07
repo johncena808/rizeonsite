@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rizeon AI</title>
+    <meta name="description" content="Custom AI systems for business operations. Built around how you actually work." />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <!--
+      Hidden static form for Netlify's build-time bot to detect.
+      Netlify Forms only scans the raw HTML at deploy time — it cannot see
+      forms rendered by React at runtime. This form is never displayed;
+      the actual visible input lives in App.jsx and submits to this form
+      name via fetch(). Do not remove this block.
+    -->
+    <form name="contact" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="email" name="email" />
+      <input name="bot-field" />
+    </form>
+
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
