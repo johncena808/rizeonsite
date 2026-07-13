@@ -29,8 +29,6 @@ const GlobalStyle = () => (
     body { margin: 0; }
     ::selection { background: ${c.purple}; color: #fff; }
 
-    @keyframes marqueeL { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-    @keyframes marqueeR { 0% { transform: translateX(-50%); } 100% { transform: translateX(0); } }
     @keyframes wordUp {
       0% { opacity: 0; transform: translateY(110%) rotate(2deg); }
       100% { opacity: 1; transform: translateY(0) rotate(0deg); }
@@ -69,8 +67,6 @@ const GlobalStyle = () => (
     }
     .btn-fill:hover::before { transform: translateY(0); }
     .btn-fill-light:hover { color: ${c.white} !important; }
-
-    .marquee-pause:hover > div { animation-play-state: paused; }
 
     .hamburger { display: none; }
     .svc-item { transition: background 0.3s, padding-left 0.4s cubic-bezier(0.2,0.7,0.2,1); }
@@ -381,38 +377,28 @@ function HomePage({ navigate }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const industries = [
-    "Renovation & Interior Design", "Aesthetic Clinics", "Accounting Practices",
-    "Property Agencies", "F&B Groups", "Wellness Studios", "Legal Firms", "Recruitment Agencies",
-  ];
-
   const capabilities = [
     { title: "Client Communication", desc: "AI that responds to every enquiry instantly across WhatsApp, email and calls, trained on your exact protocols." },
     { title: "Workflow Automation", desc: "Document chasing, intake, scheduling, and follow-ups handled end-to-end without a human touching them." },
     { title: "Admin & Data Operations", desc: "Data moved between your tools automatically. No more copy-pasting between CRM, calendar, and inbox." },
-    { title: "Custom Systems", desc: "Whatever your bottleneck is, we architect a bespoke AI system around your specific business logic." },
+    { title: "Custom Infrastructure", desc: "Whatever your bottleneck is, we architect bespoke AI infrastructure around your specific business logic." },
   ];
 
   const testimonials = [
     {
-      name: "Isaac",
-      role: "Real Estate Agency",
-      text: "Portal leads get a reply in under a minute now, even when the whole team is out at viewings. Buyers actually answer our calls because we are the first agency in their inbox.",
+      name: "Ryan Montoya",
+      role: "CEO, Ovrhaul",
+      text: "Every lead that comes through the pipeline gets qualified and booked automatically. It saves my team at least 15 hours a week, and nothing slips through anymore.",
     },
     {
-      name: "Amanda",
+      name: "Mario",
+      role: "Cross Insurance",
+      text: "The AI SDR they built handles outreach and follow-up across our entire book. Booked calls come in daily without my team chasing a single prospect.",
+    },
+    {
+      name: "Angeline",
       role: "Recruitment Firm",
       text: "Applications are processed and screened before my consultants open their laptops. Shortlists that used to take two days now land the same morning.",
-    },
-    {
-      name: "Matthias",
-      role: "Aesthetic Clinic",
-      text: "New enquiries get an instant response even after hours, and appointment reminders go out automatically. No-shows are down and my front desk finally has breathing room.",
-    },
-    {
-      name: "Andrew",
-      role: "Accounting Firm",
-      text: "Data entry and document chasing used to eat half my team's week. The system handles both now, and month-end closes without the usual scramble.",
     },
   ];
 
@@ -575,7 +561,7 @@ function HomePage({ navigate }) {
           position: "relative",
           fontWeight: 400,
         }}>
-          We uncover the inefficiencies slowing your business down and build custom AI systems around how you actually work, without new tools or replatforming.
+          We uncover the inefficiencies slowing your business down and build AI infrastructure around how you actually work, without new tools or replatforming.
         </p>
 
         <div style={{
@@ -609,7 +595,7 @@ function HomePage({ navigate }) {
           textTransform: "uppercase", textAlign: "right", lineHeight: 2,
           animation: "fadeUp 1.2s cubic-bezier(0.2,0.8,0.2,1) 2.2s both",
         }}>
-          Custom AI Systems<br />For Operations
+          AI Infrastructure<br />For Operations
         </div>
 
         {/* drawn-line scroll cue */}
@@ -625,25 +611,6 @@ function HomePage({ navigate }) {
           }} />
         </div>
       </section>
-
-      {/* ── INDUSTRY TICKER ── */}
-      <div style={{
-        borderTop: `1px solid ${c.border}`, borderBottom: `1px solid ${c.border}`,
-        padding: "20px 0", overflow: "hidden",
-        maskImage: "linear-gradient(90deg, transparent, black 8%, black 92%, transparent)",
-        WebkitMaskImage: "linear-gradient(90deg, transparent, black 8%, black 92%, transparent)",
-      }}>
-        <div style={{ display: "flex", whiteSpace: "nowrap", animation: "marqueeL 60s linear infinite", width: "max-content" }}>
-          {[...industries, ...industries].map((ind, i) => (
-            <span key={i} style={{
-              fontFamily: display, color: c.greyDim, fontSize: 13, letterSpacing: 2.5,
-              textTransform: "uppercase", fontWeight: 500, paddingRight: 64,
-            }}>
-              <span style={{ color: c.greyDim, marginRight: 20 }}>·</span>{ind}
-            </span>
-          ))}
-        </div>
-      </div>
 
       {/* ── PROBLEM NARRATIVE ── */}
       <section className="section-pad-lg" style={{ padding: "30vh 28px 20vh", maxWidth: 880, margin: "0 auto" }}>
@@ -662,7 +629,7 @@ function HomePage({ navigate }) {
           <Reveal>
             <span style={{ fontFamily: mono, fontSize: 12, color: c.purple, letterSpacing: 3, textTransform: "uppercase", fontWeight: 500 }}>02 — What we build</span>
             <h2 style={{ fontFamily: display, fontSize: "clamp(36px, 6vw, 64px)", fontWeight: 500, letterSpacing: -1.8, margin: "22px 0 20px", lineHeight: 1.05, maxWidth: 700 }}>
-              Custom AI, built around your business.
+              AI infrastructure, built around your business.
             </h2>
             <p style={{ color: c.grey, fontSize: 16, lineHeight: 1.75, maxWidth: 520, margin: "0 0 72px" }}>
               Not off-the-shelf software. We architect systems around your specific workflows, protocols, and bottlenecks.
@@ -780,6 +747,33 @@ function HomePage({ navigate }) {
                 </div>
               </Reveal>
             ))}
+            {/* placeholder: next client */}
+            <Reveal delay={0.24}>
+              <div
+                onClick={go("contact")}
+                style={{
+                  border: `1px dashed rgba(245,245,243,0.18)`, borderRadius: 10,
+                  padding: "38px 32px 32px",
+                  height: "100%", boxSizing: "border-box",
+                  display: "flex", flexDirection: "column",
+                  alignItems: "center", justifyContent: "center", textAlign: "center",
+                  cursor: "pointer", gap: 14,
+                  transition: "border-color 0.4s, transform 0.4s, background 0.4s",
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(139,92,246,0.5)"; e.currentTarget.style.transform = "translateY(-6px)"; e.currentTarget.style.background = "rgba(139,92,246,0.03)"; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(245,245,243,0.18)"; e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.background = "transparent"; }}
+              >
+                <span style={{ fontFamily: mono, fontSize: 11, color: c.greyDim, letterSpacing: 2.5, textTransform: "uppercase" }}>
+                  Reserved
+                </span>
+                <p style={{ fontFamily: display, fontSize: 20, fontWeight: 500, color: c.white, margin: 0, letterSpacing: -0.4, lineHeight: 1.35 }}>
+                  This space is waiting<br />for your firm.
+                </p>
+                <span style={{ fontFamily: display, fontSize: 13.5, fontWeight: 500, color: c.purple }}>
+                  Start with an audit →
+                </span>
+              </div>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -939,7 +933,7 @@ function HomePage({ navigate }) {
               <span style={{ fontFamily: display, fontSize: 14, fontWeight: 600, letterSpacing: 2.5 }}>RIZEON AI</span>
             </span>
             <p style={{ color: c.grey, fontSize: 13.5, lineHeight: 1.8, margin: 0, maxWidth: 280 }}>
-              Custom AI systems for business operations. Built around how you actually work.
+              AI infrastructure for business operations. Built around how you actually work.
             </p>
           </div>
           <div>
@@ -1122,9 +1116,9 @@ function ServicesPage({ navigate }) {
               n: "02",
               title: "Build",
               tagline: "Systems shaped around you.",
-              para: "We architect a custom AI system around your business logic, trained on your protocols and tone. It plugs into the tools you already use and is fully tested before it touches a real customer.",
+              para: "We architect AI infrastructure around your business logic, trained on your protocols and tone. It plugs into the tools you already use and is fully tested before it touches a real customer.",
               items: [
-                "Custom system architecture around your workflows",
+                "Custom infrastructure architecture around your workflows",
                 "AI trained on your protocols and policies",
                 "Integration with your CRM, calendar and WhatsApp",
                 "Sandbox testing before anything goes live",
@@ -1200,7 +1194,7 @@ function ServicesPage({ navigate }) {
               <span style={{ fontFamily: display, fontSize: 14, fontWeight: 600, letterSpacing: 2.5 }}>RIZEON AI</span>
             </span>
             <p style={{ color: c.grey, fontSize: 13.5, lineHeight: 1.8, margin: 0, maxWidth: 280 }}>
-              Custom AI systems for business operations. Built around how you actually work.
+              AI infrastructure for business operations. Built around how you actually work.
             </p>
           </div>
           <div>
