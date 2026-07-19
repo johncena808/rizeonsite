@@ -922,12 +922,6 @@ function HomePage({ navigate }) {
             >
               Book your audit call
             </a>
-            <a href="mailto:hello@rizeonai.com" style={{
-              fontFamily: mono, fontSize: 11.5, color: c.greyDim, letterSpacing: 2,
-              textTransform: "uppercase", textDecoration: "none",
-            }}>
-              or email hello@rizeonai.com
-            </a>
           </div>
         </Reveal>
       </section>
@@ -975,6 +969,19 @@ function HomePage({ navigate }) {
               color: c.grey, fontSize: 13.5, textDecoration: "none", marginBottom: 14,
             }}>hello@rizeonai.com</a>
           </div>
+          <div>
+            <span style={{ fontFamily: mono, fontSize: 10.5, color: c.greyDim, letterSpacing: 2.5, textTransform: "uppercase", display: "block", marginBottom: 20 }}>
+              Legal
+            </span>
+            <a href="/privacy" onClick={(e) => { e.preventDefault(); navigate("/privacy"); }} className="link-slide" style={{
+              display: "block", width: "fit-content",
+              color: c.grey, fontSize: 13.5, textDecoration: "none", marginBottom: 14, cursor: "pointer",
+            }}>Privacy Policy</a>
+            <a href="/terms" onClick={(e) => { e.preventDefault(); navigate("/terms"); }} className="link-slide" style={{
+              display: "block", width: "fit-content",
+              color: c.grey, fontSize: 13.5, textDecoration: "none", marginBottom: 14, cursor: "pointer",
+            }}>Terms of Service</a>
+          </div>
         </div>
         <div style={{ borderTop: `1px solid ${c.border}` }}>
           <div style={{
@@ -984,10 +991,6 @@ function HomePage({ navigate }) {
             flexWrap: "wrap", gap: 12,
           }}>
             <p style={{ color: c.greyDim, fontSize: 11.5, margin: 0, fontFamily: mono, letterSpacing: 1 }}>© 2026 RIZEON AI</p>
-            <div style={{ display: "flex", gap: 24 }}>
-              <a href="/privacy" onClick={(e) => { e.preventDefault(); navigate("/privacy"); }} style={{ color: c.greyDim, fontSize: 11.5, fontFamily: mono, letterSpacing: 1, textDecoration: "none", cursor: "pointer" }}>PRIVACY</a>
-              <a href="/terms" onClick={(e) => { e.preventDefault(); navigate("/terms"); }} style={{ color: c.greyDim, fontSize: 11.5, fontFamily: mono, letterSpacing: 1, textDecoration: "none", cursor: "pointer" }}>TERMS</a>
-            </div>
           </div>
         </div>
       </footer>
@@ -1191,12 +1194,6 @@ function ServicesPage({ navigate }) {
             >
               Book your audit call
             </a>
-            <a href="mailto:hello@rizeonai.com" style={{
-              fontFamily: mono, fontSize: 11.5, color: c.greyDim, letterSpacing: 2,
-              textTransform: "uppercase", textDecoration: "none",
-            }}>
-              or email hello@rizeonai.com
-            </a>
           </div>
         </div>
       </section>
@@ -1222,14 +1219,15 @@ function ServicesPage({ navigate }) {
             <span style={{ fontFamily: mono, fontSize: 10.5, color: c.greyDim, letterSpacing: 2.5, textTransform: "uppercase", display: "block", marginBottom: 20 }}>Contact</span>
             <a href="mailto:hello@rizeonai.com" className="link-slide" style={{ display: "block", width: "fit-content", color: c.grey, fontSize: 13.5, textDecoration: "none", marginBottom: 14 }}>hello@rizeonai.com</a>
           </div>
+          <div>
+            <span style={{ fontFamily: mono, fontSize: 10.5, color: c.greyDim, letterSpacing: 2.5, textTransform: "uppercase", display: "block", marginBottom: 20 }}>Legal</span>
+            <a href="/privacy" onClick={(e) => { e.preventDefault(); navigate("/privacy"); }} className="link-slide" style={{ display: "block", width: "fit-content", color: c.grey, fontSize: 13.5, textDecoration: "none", marginBottom: 14, cursor: "pointer" }}>Privacy Policy</a>
+            <a href="/terms" onClick={(e) => { e.preventDefault(); navigate("/terms"); }} className="link-slide" style={{ display: "block", width: "fit-content", color: c.grey, fontSize: 13.5, textDecoration: "none", marginBottom: 14, cursor: "pointer" }}>Terms of Service</a>
+          </div>
         </div>
         <div style={{ borderTop: `1px solid ${c.border}` }}>
           <div style={{ maxWidth: 1160, margin: "0 auto", padding: "24px 28px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
             <p style={{ color: c.greyDim, fontSize: 11.5, margin: 0, fontFamily: mono, letterSpacing: 1 }}>© 2026 RIZEON AI</p>
-            <div style={{ display: "flex", gap: 24 }}>
-              <a href="/privacy" onClick={(e) => { e.preventDefault(); navigate("/privacy"); }} style={{ color: c.greyDim, fontSize: 11.5, fontFamily: mono, letterSpacing: 1, textDecoration: "none", cursor: "pointer" }}>PRIVACY</a>
-              <a href="/terms" onClick={(e) => { e.preventDefault(); navigate("/terms"); }} style={{ color: c.greyDim, fontSize: 11.5, fontFamily: mono, letterSpacing: 1, textDecoration: "none", cursor: "pointer" }}>TERMS</a>
-            </div>
           </div>
         </div>
       </footer>
@@ -1319,10 +1317,6 @@ function LegalPage({ navigate, kind }) {
       <footer style={{ borderTop: `1px solid ${c.border}` }}>
         <div style={{ maxWidth: 1160, margin: "0 auto", padding: "24px 28px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
           <p style={{ color: c.greyDim, fontSize: 11.5, margin: 0, fontFamily: mono, letterSpacing: 1 }}>© 2026 RIZEON AI</p>
-          <div style={{ display: "flex", gap: 24 }}>
-            <a href="/privacy" onClick={(e) => { e.preventDefault(); navigate("/privacy"); }} style={{ color: c.greyDim, fontSize: 11.5, fontFamily: mono, letterSpacing: 1, textDecoration: "none" }}>PRIVACY</a>
-            <a href="/terms" onClick={(e) => { e.preventDefault(); navigate("/terms"); }} style={{ color: c.greyDim, fontSize: 11.5, fontFamily: mono, letterSpacing: 1, textDecoration: "none" }}>TERMS</a>
-          </div>
         </div>
       </footer>
     </div>
@@ -1371,23 +1365,11 @@ function AuditPage({ navigate }) {
 
         <CalEmbed />
 
-        <p style={{ marginTop: 40 }}>
-          <a href="mailto:hello@rizeonai.com" style={{
-            fontFamily: mono, fontSize: 11.5, color: c.greyDim, letterSpacing: 2,
-            textTransform: "uppercase", textDecoration: "none",
-          }}>
-            Prefer email? hello@rizeonai.com
-          </a>
-        </p>
       </main>
 
       <footer style={{ borderTop: `1px solid ${c.border}` }}>
         <div style={{ maxWidth: 1160, margin: "0 auto", padding: "24px 28px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
           <p style={{ color: c.greyDim, fontSize: 11.5, margin: 0, fontFamily: mono, letterSpacing: 1 }}>© 2026 RIZEON AI</p>
-          <div style={{ display: "flex", gap: 24 }}>
-            <a href="/privacy" onClick={(e) => { e.preventDefault(); navigate("/privacy"); }} style={{ color: c.greyDim, fontSize: 11.5, fontFamily: mono, letterSpacing: 1, textDecoration: "none" }}>PRIVACY</a>
-            <a href="/terms" onClick={(e) => { e.preventDefault(); navigate("/terms"); }} style={{ color: c.greyDim, fontSize: 11.5, fontFamily: mono, letterSpacing: 1, textDecoration: "none" }}>TERMS</a>
-          </div>
         </div>
       </footer>
     </div>
@@ -1423,10 +1405,10 @@ export default function App() {
   useEffect(() => {
     const titles = {
       "/": "Rizeon AI",
-      "/services": "Services | Rizeon AI",
-      "/audit": "Book a Call | Rizeon AI",
-      "/privacy": "Privacy Policy | Rizeon AI",
-      "/terms": "Terms of Service | Rizeon AI",
+      "/services": "Rizeon AI | Services",
+      "/audit": "Rizeon AI | Book a Call",
+      "/privacy": "Rizeon AI | Privacy Policy",
+      "/terms": "Rizeon AI | Terms of Service",
     };
     document.title = titles[path] || "Rizeon AI";
   }, [path]);
