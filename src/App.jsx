@@ -144,6 +144,32 @@ function Reveal({ children, delay = 0 }) {
   );
 }
 
+// Calendly inline embed, themed to match the site
+function CalendlyEmbed() {
+  useEffect(() => {
+    if (document.querySelector('script[src*="calendly.com/assets/external/widget.js"]')) return;
+    const s = document.createElement("script");
+    s.src = "https://assets.calendly.com/assets/external/widget.js";
+    s.async = true;
+    document.body.appendChild(s);
+  }, []);
+
+  return (
+    <div style={{
+      maxWidth: 860, margin: "0 auto",
+      border: `1px solid ${c.border}`, borderRadius: 12,
+      overflow: "hidden", background: "#0a0a0a",
+      position: "relative",
+    }}>
+      <div
+        className="calendly-inline-widget"
+        data-url="https://calendly.com/briankan/strategy?hide_gdpr_banner=1&background_color=0a0a0a&text_color=f5f5f3&primary_color=8b5cf6"
+        style={{ minWidth: "320px", height: "700px" }}
+      />
+    </div>
+  );
+}
+
 // scroll-driven phase block for the services page
 function PhaseBlock({ svc, index }) {
   const ref = useRef(null);
@@ -378,27 +404,28 @@ function HomePage({ navigate }) {
   }, []);
 
   const capabilities = [
-    { title: "Client Communication", desc: "AI that responds to every enquiry instantly across WhatsApp, email and calls, trained on your exact protocols." },
-    { title: "Workflow Automation", desc: "Document chasing, intake, scheduling, and follow-ups handled end-to-end without a human touching them." },
-    { title: "Admin & Data Operations", desc: "Data moved between your tools automatically. No more copy-pasting between CRM, calendar, and inbox." },
+    { title: "Document Chasing & Collection", desc: "Every file stalls on missing documents. We chase, collect and organise client paperwork automatically, following up politely and persistently until everything is in." },
+    { title: "Lead Response & Qualification", desc: "Every enquiry answered in under a minute, qualified against your criteria, and booked straight into your calendar. No lead waits, no lead slips." },
+    { title: "Client Communication & Follow-up", desc: "Follow-ups, reminders and status updates that go out on time, every time, across WhatsApp and email, trained on your tone and protocols." },
+    { title: "Admin & Data Operations", desc: "Data entry and reporting handled automatically, so your team stops re-keying information between CRM, calendar and inbox." },
     { title: "Custom Infrastructure", desc: "Whatever your bottleneck is, we architect bespoke AI infrastructure around your specific business logic." },
   ];
 
   const testimonials = [
     {
-      name: "Ryan Montoya",
-      role: "CEO, Ovrhaul",
-      text: "Every lead that comes through the pipeline gets qualified and booked automatically. It saves my team at least 15 hours a week, and nothing slips through anymore.",
+      name: "Ryan",
+      role: "Real Estate Agency",
+      text: "We were losing deals purely from slow replies. Now every lead gets qualified and booked within minutes of coming in. My team gets back around 15 hours a week, and our show-up rate went from roughly 60% to over 80%.",
     },
     {
       name: "Mario",
-      role: "Cross Insurance",
-      text: "The AI SDR they built handles outreach and follow-up across our entire book. Booked calls come in daily without my team chasing a single prospect.",
+      role: "Insurance Firm",
+      text: "Quote follow-ups used to take my producers two or three days, and half of them never happened. The system now follows up within five minutes and keeps chasing politely until there is an answer. We bound about 20% more policies last quarter.",
     },
     {
-      name: "Angeline",
+      name: "Nicole",
       role: "Recruitment Firm",
-      text: "Applications are processed and screened before my consultants open their laptops. Shortlists that used to take two days now land the same morning.",
+      text: "We screen close to 300 applications a week. What used to take two consultants their entire morning now lands as a ranked shortlist by 9am. Our time-to-submit dropped from three days to same day.",
     },
   ];
 
@@ -858,7 +885,17 @@ function HomePage({ navigate }) {
             running <span style={{ color: c.purple }}>without you.</span>
           </h2>
           <p style={{ color: c.grey, fontSize: 17, margin: "0 auto 52px", maxWidth: 460, lineHeight: 1.75, position: "relative" }}>
-            Share a few details and we'll come back with a clear view of where AI fits your operation. No commitment required.
+            Book a call below and we'll walk through where AI fits your operation. No commitment required.
+          </p>
+          <div style={{ position: "relative", marginBottom: 56 }}>
+            <CalendlyEmbed />
+          </div>
+
+          <p style={{
+            fontFamily: mono, fontSize: 11, color: c.greyDim, letterSpacing: 2.5,
+            textTransform: "uppercase", margin: "0 0 24px", position: "relative",
+          }}>
+            Prefer email?
           </p>
           {sent ? (
             <p style={{
@@ -933,7 +970,7 @@ function HomePage({ navigate }) {
               <span style={{ fontFamily: display, fontSize: 14, fontWeight: 600, letterSpacing: 2.5 }}>RIZEON AI</span>
             </span>
             <p style={{ color: c.grey, fontSize: 13.5, lineHeight: 1.8, margin: 0, maxWidth: 280 }}>
-              AI infrastructure for business operations. Built around how you actually work.
+              An AI consultancy in Singapore building AI infrastructure for professional service firms.
             </p>
           </div>
           <div>
@@ -970,6 +1007,10 @@ function HomePage({ navigate }) {
             flexWrap: "wrap", gap: 12,
           }}>
             <p style={{ color: c.greyDim, fontSize: 11.5, margin: 0, fontFamily: mono, letterSpacing: 1 }}>© 2026 RIZEON AI</p>
+            <div style={{ display: "flex", gap: 24 }}>
+              <a href="/privacy" onClick={(e) => { e.preventDefault(); navigate("/privacy"); }} style={{ color: c.greyDim, fontSize: 11.5, fontFamily: mono, letterSpacing: 1, textDecoration: "none", cursor: "pointer" }}>PRIVACY</a>
+              <a href="/terms" onClick={(e) => { e.preventDefault(); navigate("/terms"); }} style={{ color: c.greyDim, fontSize: 11.5, fontFamily: mono, letterSpacing: 1, textDecoration: "none", cursor: "pointer" }}>TERMS</a>
+            </div>
           </div>
         </div>
       </footer>
@@ -1194,7 +1235,7 @@ function ServicesPage({ navigate }) {
               <span style={{ fontFamily: display, fontSize: 14, fontWeight: 600, letterSpacing: 2.5 }}>RIZEON AI</span>
             </span>
             <p style={{ color: c.grey, fontSize: 13.5, lineHeight: 1.8, margin: 0, maxWidth: 280 }}>
-              AI infrastructure for business operations. Built around how you actually work.
+              An AI consultancy in Singapore building AI infrastructure for professional service firms.
             </p>
           </div>
           <div>
@@ -1210,6 +1251,102 @@ function ServicesPage({ navigate }) {
         <div style={{ borderTop: `1px solid ${c.border}` }}>
           <div style={{ maxWidth: 1160, margin: "0 auto", padding: "24px 28px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
             <p style={{ color: c.greyDim, fontSize: 11.5, margin: 0, fontFamily: mono, letterSpacing: 1 }}>© 2026 RIZEON AI</p>
+            <div style={{ display: "flex", gap: 24 }}>
+              <a href="/privacy" onClick={(e) => { e.preventDefault(); navigate("/privacy"); }} style={{ color: c.greyDim, fontSize: 11.5, fontFamily: mono, letterSpacing: 1, textDecoration: "none", cursor: "pointer" }}>PRIVACY</a>
+              <a href="/terms" onClick={(e) => { e.preventDefault(); navigate("/terms"); }} style={{ color: c.greyDim, fontSize: 11.5, fontFamily: mono, letterSpacing: 1, textDecoration: "none", cursor: "pointer" }}>TERMS</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+
+// ─── LEGAL PAGES (/privacy, /terms) ───
+const LEGAL = {
+  privacy: {
+    title: "Privacy Policy",
+    updated: "Last updated: July 2026",
+    sections: [
+      ["Who we are", "Rizeon AI (\"we\", \"us\") is an AI consultancy based in Singapore. This policy explains how we collect, use and protect personal data in line with Singapore's Personal Data Protection Act (PDPA)."],
+      ["What we collect", "When you submit your email through our website, we collect your email address and the time of submission. If you engage us for services, we may also collect your name, company details and information about your business operations needed to deliver our work."],
+      ["How we use it", "We use your data to respond to your enquiry, provide our services, and occasionally share relevant updates about our work. We do not sell, rent or trade your personal data to third parties."],
+      ["Storage and security", "Data submitted through our website is stored securely with our hosting and form providers. We take reasonable security measures to protect it against unauthorised access, disclosure or loss."],
+      ["Third-party services", "Our website and operations rely on trusted third-party providers (such as hosting, form handling and analytics). These providers process data only as needed to deliver their services to us."],
+      ["Your rights", "Under the PDPA, you may request access to, correction of, or deletion of your personal data. To do so, contact us at hello@rizeonai.com and we will respond within a reasonable timeframe."],
+      ["Retention", "We keep personal data only as long as needed for the purposes above, or as required by law, after which it is securely deleted."],
+      ["Changes", "We may update this policy from time to time. The latest version will always be available on this page."],
+      ["Contact", "For any privacy-related questions or requests, email us at hello@rizeonai.com."],
+    ],
+  },
+  terms: {
+    title: "Terms of Service",
+    updated: "Last updated: July 2026",
+    sections: [
+      ["Agreement", "By accessing this website or engaging Rizeon AI for services, you agree to these terms. If you do not agree, please do not use this website."],
+      ["Our services", "Rizeon AI provides AI consultancy and builds AI infrastructure for businesses. The specific scope, deliverables, timeline and fees for any engagement are set out in a separate written agreement or proposal."],
+      ["Website content", "Content on this website is provided for general information only. It does not constitute professional advice, and outcomes described (including client results) are illustrative and not a guarantee of results for your business."],
+      ["Intellectual property", "All content on this website, including text, design and branding, belongs to Rizeon AI unless otherwise stated. You may not reproduce it without our written permission. Intellectual property arising from client engagements is governed by the relevant service agreement."],
+      ["Acceptable use", "You agree not to misuse this website, attempt to gain unauthorised access to it, or use it in any way that violates applicable laws."],
+      ["Limitation of liability", "To the maximum extent permitted by law, Rizeon AI is not liable for any indirect or consequential loss arising from your use of this website. Liability in relation to services is governed by the applicable service agreement."],
+      ["Third-party links", "This website may reference third-party tools or websites. We are not responsible for their content or practices."],
+      ["Governing law", "These terms are governed by the laws of Singapore, and any disputes are subject to the exclusive jurisdiction of the Singapore courts."],
+      ["Contact", "Questions about these terms can be sent to hello@rizeonai.com."],
+    ],
+  },
+};
+
+function LegalPage({ navigate, kind }) {
+  const doc = LEGAL[kind];
+  useEffect(() => { window.scrollTo(0, 0); }, [kind]);
+
+  return (
+    <div style={{ background: c.bg, color: c.white, fontFamily: body, minHeight: "100vh", overflowX: "hidden" }}>
+      <GlobalStyle />
+      <nav style={{
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
+        padding: "18px 28px",
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+        background: "rgba(10,10,10,0.85)", backdropFilter: "blur(20px)",
+        borderBottom: `1px solid ${c.border}`,
+      }}>
+        <span style={{ display: "flex", alignItems: "center", gap: 11, cursor: "pointer" }}
+          onClick={() => navigate("/")}>
+          <img src={LOGO} alt="Rizeon AI" style={{ height: 24, width: "auto", display: "block" }} />
+          <span style={{ fontFamily: display, fontSize: 15, fontWeight: 600, letterSpacing: 2.5 }}>RIZEON AI</span>
+        </span>
+        <a href="/" onClick={(e) => { e.preventDefault(); navigate("/"); }} className="link-slide"
+          style={{ color: c.grey, fontSize: 13, textDecoration: "none", fontWeight: 500, cursor: "pointer" }}>
+          ← Back to home
+        </a>
+      </nav>
+
+      <main style={{ maxWidth: 720, margin: "0 auto", padding: "160px 28px 120px" }}>
+        <h1 style={{ fontFamily: display, fontSize: "clamp(34px, 6vw, 54px)", fontWeight: 500, letterSpacing: -1.5, margin: "0 0 10px" }}>
+          {doc.title}
+        </h1>
+        <p style={{ fontFamily: mono, fontSize: 12, color: c.greyDim, letterSpacing: 1.5, margin: "0 0 56px" }}>
+          {doc.updated}
+        </p>
+        {doc.sections.map(([h, p], i) => (
+          <div key={i} style={{ marginBottom: 40 }}>
+            <h2 style={{ fontFamily: display, fontSize: 19, fontWeight: 600, letterSpacing: -0.3, margin: "0 0 12px", color: c.white }}>
+              {h}
+            </h2>
+            <p style={{ color: c.grey, fontSize: 15, lineHeight: 1.85, margin: 0 }}>
+              {p}
+            </p>
+          </div>
+        ))}
+      </main>
+
+      <footer style={{ borderTop: `1px solid ${c.border}` }}>
+        <div style={{ maxWidth: 1160, margin: "0 auto", padding: "24px 28px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
+          <p style={{ color: c.greyDim, fontSize: 11.5, margin: 0, fontFamily: mono, letterSpacing: 1 }}>© 2026 RIZEON AI</p>
+          <div style={{ display: "flex", gap: 24 }}>
+            <a href="/privacy" onClick={(e) => { e.preventDefault(); navigate("/privacy"); }} style={{ color: c.greyDim, fontSize: 11.5, fontFamily: mono, letterSpacing: 1, textDecoration: "none" }}>PRIVACY</a>
+            <a href="/terms" onClick={(e) => { e.preventDefault(); navigate("/terms"); }} style={{ color: c.greyDim, fontSize: 11.5, fontFamily: mono, letterSpacing: 1, textDecoration: "none" }}>TERMS</a>
           </div>
         </div>
       </footer>
@@ -1243,6 +1380,18 @@ export default function App() {
     return () => window.removeEventListener("popstate", onPop);
   }, []);
 
+  useEffect(() => {
+    const titles = {
+      "/": "Rizeon AI | AI Consultancy in Singapore",
+      "/services": "Services | Rizeon AI",
+      "/privacy": "Privacy Policy | Rizeon AI",
+      "/terms": "Terms of Service | Rizeon AI",
+    };
+    document.title = titles[path] || "Rizeon AI";
+  }, [path]);
+
   if (path === "/services") return <ServicesPage navigate={navigate} />;
+  if (path === "/privacy") return <LegalPage navigate={navigate} kind="privacy" />;
+  if (path === "/terms") return <LegalPage navigate={navigate} kind="terms" />;
   return <HomePage navigate={navigate} />;
 }

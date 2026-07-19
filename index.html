@@ -3,26 +3,170 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rizeon AI</title>
-    <meta name="description" content="AI infrastructure for business operations. Built around how you actually work." />
+
+    <!-- Primary SEO -->
+    <title>Rizeon AI | AI Consultancy in Singapore for Professional Service Firms</title>
+    <meta name="description" content="Rizeon AI is an AI consultancy in Singapore building AI infrastructure for professional service firms. We automate document chasing, lead response, client communication and admin operations for law firms, recruitment agencies, clinics and property agencies." />
+    <meta name="keywords" content="AI consultancy Singapore, AI automation agency Singapore, AI infrastructure, business automation Singapore, AI for law firms, AI for recruitment agencies, AI for clinics, speed to lead, lead qualification AI, AI SDR Singapore" />
+    <meta name="author" content="Rizeon AI" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://rizeonai.com/" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://rizeonai.com/" />
+    <meta property="og:title" content="Rizeon AI | AI Consultancy in Singapore" />
+    <meta property="og:description" content="AI infrastructure for professional service firms. We automate lead response, client communication and admin operations so your team stops losing time and revenue." />
+    <meta property="og:image" content="https://rizeonai.com/favicon-192.png" />
+    <meta property="og:locale" content="en_SG" />
+    <meta property="og:site_name" content="Rizeon AI" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Rizeon AI | AI Consultancy in Singapore" />
+    <meta name="twitter:description" content="AI infrastructure for professional service firms in Singapore. Lead response, client communication and admin operations, automated." />
+    <meta name="twitter:image" content="https://rizeonai.com/favicon-192.png" />
+
+    <!-- Geo -->
+    <meta name="geo.region" content="SG" />
+    <meta name="geo.placename" content="Singapore" />
+
+    <!-- Icons -->
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+
+    <!-- Structured data: Organization / ProfessionalService -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Rizeon AI",
+      "url": "https://rizeonai.com",
+      "logo": "https://rizeonai.com/favicon-192.png",
+      "description": "AI consultancy in Singapore building AI infrastructure for professional service firms. Lead response and qualification, client communication, and admin operations, automated around how your business already works.",
+      "email": "hello@rizeonai.com",
+      "foundingDate": "2025",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "SG",
+        "addressLocality": "Singapore"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Singapore"
+      },
+      "knowsAbout": [
+        "AI automation",
+        "AI infrastructure",
+        "Document chasing and collection automation",
+        "Lead response and qualification",
+        "Client communication automation",
+        "Workflow automation",
+        "AI for professional services"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "AI Infrastructure Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "AI Audit",
+              "description": "Workflow and response-time diagnostic with a revenue-leak analysis, diagnostic report and fixed-price build roadmap."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "AI Infrastructure Build",
+              "description": "Custom AI infrastructure architected around your business logic, integrated with your CRM, calendar and WhatsApp."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Launch and Ongoing Support",
+              "description": "Phased rollout with zero disruption, team onboarding, performance monitoring and ongoing iteration."
+            }
+          }
+        ]
+      }
+    }
+    </script>
+
+    <!-- Structured data: FAQ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Do I need to migrate away from my current software?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not at all. We build our AI systems to wrap around your existing stack, including your CRM, calendar and WhatsApp, so you don't have to learn a new tool or migrate any data."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does it take to deploy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Typical timeline from workflow audit to full deployment is 2 to 3 weeks, depending on complexity."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if the AI gives the wrong answer?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We strictly guardrail our AI using your specific business logic. It only answers what it is explicitly trained on and escalates complex issues to your team."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is it compliant with data protection laws?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Built with strict data privacy in mind. We comply with PDPA and ensure sensitive client information is handled securely."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I have to pay per-message or per-user fees?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Transparent, predictable pricing based on the system build and maintenance, regardless of how many leads you capture."
+          }
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>
 
     <!--
       Hidden static form for Netlify's build-time bot to detect.
-      Netlify Forms only scans the raw HTML at deploy time — it cannot see
-      forms rendered by React at runtime. This form is never displayed;
-      the actual visible input lives in App.jsx and submits to this form
-      name via fetch(). Do not remove this block.
+      Netlify Forms only scans the raw HTML at deploy time. Do not remove.
     -->
     <form name="contact" data-netlify="true" netlify-honeypot="bot-field" hidden>
       <input type="email" name="email" />
       <input name="bot-field" />
     </form>
+
+    <!-- Static crawlable summary for non-JS crawlers and answer engines -->
+    <noscript>
+      <h1>Rizeon AI: AI Consultancy in Singapore</h1>
+      <p>Rizeon AI builds AI infrastructure for professional service firms in Singapore. We automate document chasing and collection, lead response and qualification, client communication, and admin operations for law firms, recruitment agencies, aesthetic clinics, accounting practices and property agencies.</p>
+      <p>Our process: Audit (workflow diagnostic, revenue-leak analysis, fixed-price roadmap), Build (custom AI infrastructure integrated with your CRM, calendar and WhatsApp), Launch (phased rollout, monitoring and ongoing support).</p>
+      <p>Contact: hello@rizeonai.com</p>
+    </noscript>
 
     <script type="module" src="/src/main.jsx"></script>
   </body>

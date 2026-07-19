@@ -1,0 +1,35 @@
+# Rizeon AI
+
+> Rizeon AI is an AI consultancy based in Singapore that builds AI infrastructure for professional service firms. We automate the repetitive operations that cost owners the most time and revenue: lead response and qualification, client communication and follow-up, and admin and data operations.
+
+## What we do
+
+- Document Chasing & Collection: client paperwork chased, collected and organised automatically, with persistent polite follow-up until every document is in. This is the highest-impact automation for most professional service firms.
+- Lead Response & Qualification: every enquiry answered in under a minute, qualified against the firm's criteria, and booked directly into the calendar.
+- Client Communication & Follow-up: follow-ups, reminders and status updates sent on time across WhatsApp and email, trained on the firm's tone and protocols.
+- Admin & Data Operations: data entry and reporting handled automatically across CRM, calendar and inbox.
+- Custom Infrastructure: bespoke AI systems architected around a firm's specific business logic.
+
+## Who we serve
+
+Professional service firms in Singapore: law firms, recruitment agencies, aesthetic clinics, accounting practices, property and real estate agencies, and insurance firms.
+
+## How we work
+
+1. Audit: workflow and response-time diagnostic, revenue-leak analysis quantified in dollars, diagnostic report, and a fixed-price build roadmap.
+2. Build: custom AI infrastructure around the firm's business logic, integrated with existing CRM, calendar and WhatsApp. Sandbox tested before launch.
+3. Launch: phased rollout with zero disruption, team onboarding, performance monitoring and ongoing support.
+
+## Key facts
+
+- Based in Singapore, founded 2025
+- Deployment timeline: typically 2 to 3 weeks from audit to live
+- No data migration required; systems wrap around the existing software stack
+- PDPA compliant; strict AI guardrails with human escalation
+- Fixed, predictable pricing; no per-message or per-user fees
+
+## Contact
+
+- Website: https://rizeonai.com
+- Services: https://rizeonai.com/services
+- Email: hello@rizeonai.com
