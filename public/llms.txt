@@ -8,7 +8,6 @@
 - Lead Response & Qualification: every enquiry answered in under a minute, qualified against the firm's criteria, and booked directly into the calendar.
 - Client Communication & Follow-up: follow-ups, reminders and status updates sent on time across WhatsApp and email, trained on the firm's tone and protocols.
 - Admin & Data Operations: data entry and reporting handled automatically across CRM, calendar and inbox.
-- Custom Infrastructure: bespoke AI systems architected around a firm's specific business logic.
 
 ## Who we serve
 

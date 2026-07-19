@@ -144,28 +144,49 @@ function Reveal({ children, delay = 0 }) {
   );
 }
 
-// Calendly inline embed, themed to match the site
-function CalendlyEmbed() {
+// Cal.com inline embed, dark themed
+function CalEmbed() {
   useEffect(() => {
-    if (document.querySelector('script[src*="calendly.com/assets/external/widget.js"]')) return;
-    const s = document.createElement("script");
-    s.src = "https://assets.calendly.com/assets/external/widget.js";
-    s.async = true;
-    document.body.appendChild(s);
+    (function (C, A, L) {
+      let p = function (a, ar) { a.q.push(ar); };
+      let d = C.document;
+      C.Cal = C.Cal || function () {
+        let cal = C.Cal; let ar = arguments;
+        if (!cal.loaded) {
+          cal.ns = {}; cal.q = cal.q || [];
+          d.head.appendChild(d.createElement("script")).src = A;
+          cal.loaded = true;
+        }
+        if (ar[0] === L) {
+          const api = function () { p(api, arguments); };
+          const namespace = ar[1]; api.q = api.q || [];
+          if (typeof namespace === "string") {
+            cal.ns[namespace] = cal.ns[namespace] || api;
+            p(cal.ns[namespace], ar); p(cal, ["initNamespace", namespace]);
+          } else p(cal, ar);
+          return;
+        }
+        p(cal, ar);
+      };
+    })(window, "https://app.cal.com/embed/embed.js", "init");
+    window.Cal("init", "strategy", { origin: "https://app.cal.com" });
+    window.Cal.config = window.Cal.config || {};
+    window.Cal.config.forwardQueryParams = true;
+    window.Cal.ns.strategy("inline", {
+      elementOrSelector: "#cal-inline-strategy",
+      config: { layout: "month_view", useSlotsViewOnSmallScreen: "true", theme: "dark" },
+      calLink: "brian-kan/strategy",
+    });
+    window.Cal.ns.strategy("ui", { theme: "dark", hideEventTypeDetails: false, layout: "month_view" });
   }, []);
 
   return (
     <div style={{
-      maxWidth: 860, margin: "0 auto",
+      maxWidth: 900, margin: "0 auto",
       border: `1px solid ${c.border}`, borderRadius: 12,
       overflow: "hidden", background: "#0a0a0a",
-      position: "relative",
     }}>
-      <div
-        className="calendly-inline-widget"
-        data-url="https://calendly.com/briankan/strategy?hide_gdpr_banner=1&background_color=0a0a0a&text_color=f5f5f3&primary_color=8b5cf6"
-        style={{ minWidth: "320px", height: "700px" }}
-      />
+      <div id="cal-inline-strategy" style={{ width: "100%", minHeight: 700, overflow: "auto" }} />
     </div>
   );
 }
@@ -408,7 +429,6 @@ function HomePage({ navigate }) {
     { title: "Lead Response & Qualification", desc: "Every enquiry answered in under a minute, qualified against your criteria, and booked straight into your calendar. No lead waits, no lead slips." },
     { title: "Client Communication & Follow-up", desc: "Follow-ups, reminders and status updates that go out on time, every time, across WhatsApp and email, trained on your tone and protocols." },
     { title: "Admin & Data Operations", desc: "Data entry and reporting handled automatically, so your team stops re-keying information between CRM, calendar and inbox." },
-    { title: "Custom Infrastructure", desc: "Whatever your bottleneck is, we architect bespoke AI infrastructure around your specific business logic." },
   ];
 
   const testimonials = [
@@ -885,73 +905,30 @@ function HomePage({ navigate }) {
             running <span style={{ color: c.purple }}>without you.</span>
           </h2>
           <p style={{ color: c.grey, fontSize: 17, margin: "0 auto 52px", maxWidth: 460, lineHeight: 1.75, position: "relative" }}>
-            Book a call below and we'll walk through where AI fits your operation. No commitment required.
+            A 30-minute audit call to map where your operation is losing time and revenue. No commitment, no pitch.
           </p>
-          <div style={{ position: "relative", marginBottom: 56 }}>
-            <CalendlyEmbed />
+          <div style={{ position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: 26 }}>
+            <a
+              href="/audit"
+              onClick={(e) => { e.preventDefault(); navigate("/audit"); }}
+              className="btn-fill btn-fill-light"
+              style={{
+                display: "inline-block",
+                background: c.white, color: c.bg, textDecoration: "none",
+                fontFamily: display, padding: "19px 46px",
+                borderRadius: 99, fontSize: 16, fontWeight: 500,
+                cursor: "pointer", letterSpacing: -0.2,
+              }}
+            >
+              Book your audit call
+            </a>
+            <a href="mailto:hello@rizeonai.com" style={{
+              fontFamily: mono, fontSize: 11.5, color: c.greyDim, letterSpacing: 2,
+              textTransform: "uppercase", textDecoration: "none",
+            }}>
+              or email hello@rizeonai.com
+            </a>
           </div>
-
-          <p style={{
-            fontFamily: mono, fontSize: 11, color: c.greyDim, letterSpacing: 2.5,
-            textTransform: "uppercase", margin: "0 0 24px", position: "relative",
-          }}>
-            Prefer email?
-          </p>
-          {sent ? (
-            <p style={{
-              fontFamily: display, fontSize: 17, color: c.white,
-              margin: 0, position: "relative",
-            }}>
-              Thanks. We'll be in touch shortly<span style={{ color: c.purple }}>.</span>
-            </p>
-          ) : (
-            <div className="email-row" style={{
-              display: "flex", gap: 0, justifyContent: "center", flexWrap: "wrap",
-              position: "relative", maxWidth: 520, margin: "0 auto",
-            }}>
-              <input
-                className="email-input"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                onKeyDown={(e) => { if (e.key === "Enter") submitEmail(); }}
-                placeholder="Your work email"
-                style={{
-                  flex: "1 1 260px",
-                  background: "rgba(245,245,243,0.04)",
-                  border: `1px solid ${c.border}`,
-                  borderRight: "none",
-                  borderRadius: "99px 0 0 99px",
-                  padding: "17px 28px",
-                  fontSize: 15, fontFamily: body,
-                  color: c.white, outline: "none",
-                  transition: "border-color 0.3s",
-                }}
-                onFocus={(e) => e.target.style.borderColor = "rgba(245,245,243,0.3)"}
-                onBlur={(e) => e.target.style.borderColor = c.border}
-              />
-              <button
-                onClick={submitEmail}
-                disabled={submitting}
-                className="btn-fill btn-fill-light email-btn"
-                style={{
-                  background: c.white, color: c.bg,
-                  fontFamily: display, padding: "17px 38px",
-                  borderRadius: "0 99px 99px 0",
-                  fontSize: 15, fontWeight: 500, border: "none",
-                  cursor: submitting ? "default" : "pointer",
-                  opacity: submitting ? 0.6 : 1,
-                }}
-              >
-                {submitting ? "Sending…" : "Get in touch"}
-              </button>
-            </div>
-          )}
-          {error && (
-            <p style={{ color: "#f87171", fontSize: 13, marginTop: 16, position: "relative" }}>
-              Something went wrong. Please try again or email hello@rizeonai.com directly.
-            </p>
-          )}
         </Reveal>
       </section>
 
@@ -1197,32 +1174,30 @@ function ServicesPage({ navigate }) {
             Ready to start with<br />an <span style={{ color: c.purple }}>audit?</span>
           </h2>
           <p style={{ color: c.grey, fontSize: 16, margin: "0 auto 48px", maxWidth: 440, lineHeight: 1.75 }}>
-            Leave your details and we'll start with a clear diagnostic of your current operation.
+            A 30-minute audit call to map where your operation is losing time and revenue. No commitment, no pitch.
           </p>
-          {sent ? (
-            <p style={{ fontFamily: display, fontSize: 17, color: c.white, margin: 0 }}>
-              Thanks. We'll be in touch shortly<span style={{ color: c.purple }}>.</span>
-            </p>
-          ) : (
-            <div className="email-row" style={{ display: "flex", gap: 0, justifyContent: "center", flexWrap: "wrap", maxWidth: 520, margin: "0 auto" }}>
-              <input className="email-input" type="email" value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                onKeyDown={(e) => { if (e.key === "Enter") submitEmail(); }}
-                placeholder="Your work email"
-                style={{
-                  flex: "1 1 260px", background: "rgba(245,245,243,0.04)",
-                  border: `1px solid ${c.border}`, borderRight: "none", borderRadius: "99px 0 0 99px",
-                  padding: "17px 28px", fontSize: 15, fontFamily: body, color: c.white, outline: "none", transition: "border-color 0.3s",
-                }}
-                onFocus={(e) => e.target.style.borderColor = "rgba(245,245,243,0.3)"}
-                onBlur={(e) => e.target.style.borderColor = c.border} />
-              <button className="btn-fill btn-fill-light email-btn" onClick={submitEmail} disabled={submitting}
-                style={{ background: c.white, color: c.bg, fontFamily: display, padding: "17px 38px", borderRadius: "0 99px 99px 0", fontSize: 15, fontWeight: 500, border: "none", cursor: submitting ? "default" : "pointer", opacity: submitting ? 0.6 : 1 }}>
-                {submitting ? "Sending…" : "Get in touch"}
-              </button>
-            </div>
-          )}
-          {error && <p style={{ color: "#f87171", fontSize: 13, marginTop: 16 }}>Something went wrong. Please email hello@rizeonai.com directly.</p>}
+          <div style={{ position: "relative", display: "flex", flexDirection: "column", alignItems: "center", gap: 26 }}>
+            <a
+              href="/audit"
+              onClick={(e) => { e.preventDefault(); navigate("/audit"); }}
+              className="btn-fill btn-fill-light"
+              style={{
+                display: "inline-block",
+                background: c.white, color: c.bg, textDecoration: "none",
+                fontFamily: display, padding: "19px 46px",
+                borderRadius: 99, fontSize: 16, fontWeight: 500,
+                cursor: "pointer", letterSpacing: -0.2,
+              }}
+            >
+              Book your audit call
+            </a>
+            <a href="mailto:hello@rizeonai.com" style={{
+              fontFamily: mono, fontSize: 11.5, color: c.greyDim, letterSpacing: 2,
+              textTransform: "uppercase", textDecoration: "none",
+            }}>
+              or email hello@rizeonai.com
+            </a>
+          </div>
         </div>
       </section>
 
@@ -1354,6 +1329,71 @@ function LegalPage({ navigate, kind }) {
   );
 }
 
+
+// ─── AUDIT PAGE (/audit) ───
+function AuditPage({ navigate }) {
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+
+  return (
+    <div style={{ background: c.bg, color: c.white, fontFamily: body, minHeight: "100vh", overflowX: "hidden" }}>
+      <GlobalStyle />
+      <nav style={{
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
+        padding: "18px 28px",
+        display: "flex", alignItems: "center", justifyContent: "space-between",
+        background: "rgba(10,10,10,0.85)", backdropFilter: "blur(20px)",
+        borderBottom: `1px solid ${c.border}`,
+      }}>
+        <span style={{ display: "flex", alignItems: "center", gap: 11, cursor: "pointer" }}
+          onClick={() => navigate("/")}>
+          <img src={LOGO} alt="Rizeon AI" style={{ height: 24, width: "auto", display: "block" }} />
+          <span style={{ fontFamily: display, fontSize: 15, fontWeight: 600, letterSpacing: 2.5 }}>RIZEON AI</span>
+        </span>
+        <a href="/" onClick={(e) => { e.preventDefault(); navigate("/"); }} className="link-slide"
+          style={{ color: c.grey, fontSize: 13, textDecoration: "none", fontWeight: 500, cursor: "pointer" }}>
+          ← Back to home
+        </a>
+      </nav>
+
+      <main style={{ maxWidth: 1000, margin: "0 auto", padding: "150px 28px 120px", textAlign: "center" }}>
+        <span style={{ fontFamily: mono, fontSize: 12, color: c.purple, letterSpacing: 3, textTransform: "uppercase", fontWeight: 500 }}>
+          Book your audit
+        </span>
+        <h1 style={{
+          fontFamily: display, fontSize: "clamp(36px, 6.5vw, 64px)",
+          fontWeight: 500, letterSpacing: -1.8, margin: "22px 0 18px", lineHeight: 1.05,
+        }}>
+          Let's find what's leaking<span style={{ color: c.purple }}>.</span>
+        </h1>
+        <p style={{ color: c.grey, fontSize: 16, lineHeight: 1.75, maxWidth: 480, margin: "0 auto 64px" }}>
+          A 30-minute call to walk through your operation and see exactly where AI fits. No commitment, no pitch.
+        </p>
+
+        <CalEmbed />
+
+        <p style={{ marginTop: 40 }}>
+          <a href="mailto:hello@rizeonai.com" style={{
+            fontFamily: mono, fontSize: 11.5, color: c.greyDim, letterSpacing: 2,
+            textTransform: "uppercase", textDecoration: "none",
+          }}>
+            Prefer email? hello@rizeonai.com
+          </a>
+        </p>
+      </main>
+
+      <footer style={{ borderTop: `1px solid ${c.border}` }}>
+        <div style={{ maxWidth: 1160, margin: "0 auto", padding: "24px 28px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
+          <p style={{ color: c.greyDim, fontSize: 11.5, margin: 0, fontFamily: mono, letterSpacing: 1 }}>© 2026 RIZEON AI</p>
+          <div style={{ display: "flex", gap: 24 }}>
+            <a href="/privacy" onClick={(e) => { e.preventDefault(); navigate("/privacy"); }} style={{ color: c.greyDim, fontSize: 11.5, fontFamily: mono, letterSpacing: 1, textDecoration: "none" }}>PRIVACY</a>
+            <a href="/terms" onClick={(e) => { e.preventDefault(); navigate("/terms"); }} style={{ color: c.greyDim, fontSize: 11.5, fontFamily: mono, letterSpacing: 1, textDecoration: "none" }}>TERMS</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
 // ─── ROUTER ───
 export default function App() {
   const [path, setPath] = useState(window.location.pathname);
@@ -1382,14 +1422,16 @@ export default function App() {
 
   useEffect(() => {
     const titles = {
-      "/": "Rizeon AI | AI Consultancy in Singapore",
+      "/": "Rizeon AI",
       "/services": "Services | Rizeon AI",
+      "/audit": "Book a Call | Rizeon AI",
       "/privacy": "Privacy Policy | Rizeon AI",
       "/terms": "Terms of Service | Rizeon AI",
     };
     document.title = titles[path] || "Rizeon AI";
   }, [path]);
 
+  if (path === "/audit") return <AuditPage navigate={navigate} />;
   if (path === "/services") return <ServicesPage navigate={navigate} />;
   if (path === "/privacy") return <LegalPage navigate={navigate} kind="privacy" />;
   if (path === "/terms") return <LegalPage navigate={navigate} kind="terms" />;
