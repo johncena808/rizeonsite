@@ -3,6 +3,31 @@
   publish = "dist"
 
 [[redirects]]
+  from = "/services"
+  to = "/services/index.html"
+  status = 200
+[[redirects]]
+  from = "/audit"
+  to = "/audit/index.html"
+  status = 200
+[[redirects]]
+  from = "/privacy"
+  to = "/privacy/index.html"
+  status = 200
+[[redirects]]
+  from = "/terms"
+  to = "/terms/index.html"
+  status = 200
+[[redirects]]
+  from = "/insights"
+  to = "/insights/index.html"
+  status = 200
+[[redirects]]
+  from = "/insights/*"
+  to = "/insights/:splat/index.html"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200

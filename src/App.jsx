@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { POSTS, getPost } from "./posts.js";
 
 // ─── LOGO ───
 const LOGO = "data:image/png;base64,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";
@@ -406,6 +407,7 @@ function HomePage({ navigate }) {
     e.preventDefault();
     setMenuOpen(false);
     if (id === "services") { navigate("/services"); return; }
+    if (id === "insights") { navigate("/insights"); return; }
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
@@ -451,7 +453,8 @@ function HomePage({ navigate }) {
 
   const faqs = [
     { q: "Do I need to migrate away from my current software?", a: "Not at all. We build our AI systems to wrap around your existing stack, including your CRM, calendar and WhatsApp, so you don't have to learn a new tool or migrate any data." },
-    { q: "How long does it take to deploy?", a: "Typical timeline from workflow audit to full deployment is 2–3 weeks, depending on complexity." },
+    { q: "How long does it take to deploy?", a: "The Rizeon OS Method runs in 30 days, from the on-site Discover phase through to a live system driving your operation." },
+    { q: "What's the guarantee?", a: "If your business isn't noticeably easier to run after 30 days, you get a full refund. We take the risk so you don't have to." },
     { q: "What if the AI gives the wrong answer?", a: "We strictly guardrail our AI using your specific business logic. It only answers what it's explicitly trained on and escalates complex issues to your team." },
     { q: "Is it compliant with data protection laws?", a: "Absolutely. Built with strict data privacy in mind. We comply with PDPA and ensure sensitive client information is handled securely." },
     { q: "Do I have to pay per-message or per-user fees?", a: "No. Transparent, predictable pricing based on the system build and maintenance, regardless of how many leads you capture." },
@@ -493,6 +496,7 @@ function HomePage({ navigate }) {
         </span>
         <div className="nav-links" style={{ display: "flex", alignItems: "center", gap: 30 }}>
           <a href="/services" onClick={go("services")} className="link-slide" style={{ color: c.grey, fontSize: 13, textDecoration: "none", fontWeight: 500, cursor: "pointer" }}>Services</a>
+          <a href="/insights" onClick={(e) => { e.preventDefault(); navigate("/insights"); }} className="link-slide" style={{ color: c.grey, fontSize: 13, textDecoration: "none", fontWeight: 500, cursor: "pointer" }}>Insights</a>
           <a href="#contact" onClick={go("contact")} className="btn-fill btn-fill-light nav-cta-mobile" style={{
             color: c.bg, background: c.white, textDecoration: "none",
             fontFamily: display, fontSize: 13, fontWeight: 600,
@@ -540,6 +544,7 @@ function HomePage({ navigate }) {
         <div style={{ padding: "12px 28px 32px", display: "flex", flexDirection: "column" }}>
           {[
             ["Services", "services"],
+            ["Insights", "insights"],
             ["Get in touch", "contact"],
           ].map(([label, id], i) => (
             <a key={id} href={"#" + id} onClick={go(id)} style={{
@@ -608,7 +613,7 @@ function HomePage({ navigate }) {
           position: "relative",
           fontWeight: 400,
         }}>
-          We uncover the inefficiencies slowing your business down and build AI infrastructure around how you actually work, without new tools or replatforming.
+          We build AI operating systems for service businesses. Your business stops running on you and starts running on systems.
         </p>
 
         <div style={{
@@ -671,10 +676,38 @@ function HomePage({ navigate }) {
       </section>
 
       {/* ── CAPABILITIES ── */}
+      {/* ── SOLUTION: AI Operating System ── */}
+      <section id="solution" className="section-pad" style={{ borderTop: `1px solid ${c.border}`, padding: "130px 28px" }}>
+        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+          <Reveal>
+            <span style={{ fontFamily: mono, fontSize: 12, color: c.purple, letterSpacing: 3, textTransform: "uppercase", fontWeight: 500 }}>02 — The solution</span>
+            <h2 style={{ fontFamily: display, fontSize: "clamp(36px, 6vw, 64px)", fontWeight: 500, letterSpacing: -1.8, margin: "22px 0 28px", lineHeight: 1.05, maxWidth: 760 }}>
+              We build an AI Operating System for your business.
+            </h2>
+            <p style={{ color: c.grey, fontSize: 17, lineHeight: 1.8, maxWidth: 600, margin: "0 0 22px" }}>
+              Not a tool. A system. It centralises your knowledge, automates the repetitive admin, and puts AI agents on the jobs that eat the most time. Trained on how you already work.
+            </p>
+            <p style={{ color: c.grey, fontSize: 17, lineHeight: 1.8, maxWidth: 600, margin: "0 0 22px" }}>
+              We come to you. On-site with you and your team, built on your accounts, so you own it.
+            </p>
+            <p style={{ color: "rgba(245,245,243,0.9)", fontSize: 17, lineHeight: 1.8, maxWidth: 600, margin: "0 0 48px" }}>
+              Info flows on its own. An enquiry comes in, the right people know, follow-up happens. Nobody chases anybody. You set direction instead of processing everything.
+            </p>
+            <p style={{
+              fontFamily: display, fontSize: "clamp(22px, 3.2vw, 30px)", fontWeight: 500,
+              letterSpacing: -0.8, lineHeight: 1.35, maxWidth: 680, margin: 0,
+              color: c.white, paddingLeft: 24, borderLeft: `2px solid ${c.purple}`,
+            }}>
+              Your business stops running on you and starts running on <span style={{ color: c.purple }}>systems.</span>
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
       <section id="capabilities" className="section-pad" style={{ borderTop: `1px solid ${c.border}`, padding: "130px 28px" }}>
         <div style={{ maxWidth: 1160, margin: "0 auto" }}>
           <Reveal>
-            <span style={{ fontFamily: mono, fontSize: 12, color: c.purple, letterSpacing: 3, textTransform: "uppercase", fontWeight: 500 }}>02 — What we build</span>
+            <span style={{ fontFamily: mono, fontSize: 12, color: c.purple, letterSpacing: 3, textTransform: "uppercase", fontWeight: 500 }}>03 — What we build</span>
             <h2 style={{ fontFamily: display, fontSize: "clamp(36px, 6vw, 64px)", fontWeight: 500, letterSpacing: -1.8, margin: "22px 0 20px", lineHeight: 1.05, maxWidth: 700 }}>
               AI infrastructure, built around your business.
             </h2>
@@ -752,7 +785,7 @@ function HomePage({ navigate }) {
       <section className="section-pad" style={{ borderTop: `1px solid ${c.border}`, padding: "130px 28px" }}>
         <div style={{ maxWidth: 1160, margin: "0 auto" }}>
           <Reveal>
-            <span style={{ fontFamily: mono, fontSize: 12, color: c.purple, letterSpacing: 3, textTransform: "uppercase", fontWeight: 500 }}>03 — Clients</span>
+            <span style={{ fontFamily: mono, fontSize: 12, color: c.purple, letterSpacing: 3, textTransform: "uppercase", fontWeight: 500 }}>04 — Clients</span>
             <h2 style={{ fontFamily: display, fontSize: "clamp(36px, 6vw, 64px)", fontWeight: 500, letterSpacing: -1.8, margin: "22px 0 72px", lineHeight: 1.05 }}>
               What clients<br />are saying.
             </h2>
@@ -831,7 +864,7 @@ function HomePage({ navigate }) {
           <div className="faq-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 60 }}>
             <Reveal>
               <div className="faq-sticky" style={{ position: "sticky", top: 120 }}>
-                <span style={{ fontFamily: mono, fontSize: 12, color: c.purple, letterSpacing: 3, textTransform: "uppercase", fontWeight: 500 }}>04 — FAQ</span>
+                <span style={{ fontFamily: mono, fontSize: 12, color: c.purple, letterSpacing: 3, textTransform: "uppercase", fontWeight: 500 }}>05 — FAQ</span>
                 <h2 style={{ fontFamily: display, fontSize: "clamp(36px, 5vw, 56px)", fontWeight: 500, letterSpacing: -1.5, margin: "22px 0 20px", lineHeight: 1.05 }}>
                   Questions,<br />answered.
                 </h2>
@@ -941,8 +974,15 @@ function HomePage({ navigate }) {
               <span style={{ fontFamily: display, fontSize: 14, fontWeight: 600, letterSpacing: 2.5 }}>RIZEON AI</span>
             </span>
             <p style={{ color: c.grey, fontSize: 13.5, lineHeight: 1.8, margin: 0, maxWidth: 280 }}>
-              An AI consultancy in Singapore building AI infrastructure for professional service firms.
+              An AI consultancy in Singapore building AI infrastructure for professional service firms and private healthcare providers.
             </p>
+            <a href="https://www.linkedin.com/company/rizeonai" target="_blank" rel="noopener noreferrer" aria-label="Rizeon AI on LinkedIn" style={{
+              display: "inline-flex", alignItems: "center", gap: 8, marginTop: 18,
+              color: c.grey, fontSize: 13, textDecoration: "none", fontFamily: mono, letterSpacing: 1,
+            }}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+              LinkedIn
+            </a>
           </div>
           <div>
             <span style={{ fontFamily: mono, fontSize: 10.5, color: c.greyDim, letterSpacing: 2.5, textTransform: "uppercase", display: "block", marginBottom: 20 }}>
@@ -950,10 +990,11 @@ function HomePage({ navigate }) {
             </span>
             {[
               ["Services", "services"],
+              ["Insights", "insights"],
               ["What we build", "capabilities"],
               ["FAQ", "faq"],
             ].map(([label, id]) => (
-              <a key={label} href={id === "services" ? "/services" : "#" + id} onClick={go(id)} className="link-slide" style={{
+              <a key={label} href={(id === "services" || id === "insights") ? "/" + id : "#" + id} onClick={go(id)} className="link-slide" style={{
                 display: "block", width: "fit-content",
                 color: c.grey, fontSize: 13.5, textDecoration: "none",
                 marginBottom: 14, fontWeight: 400, cursor: "pointer",
@@ -966,8 +1007,13 @@ function HomePage({ navigate }) {
             </span>
             <a href="mailto:hello@rizeonai.com" className="link-slide" style={{
               display: "block", width: "fit-content",
-              color: c.grey, fontSize: 13.5, textDecoration: "none", marginBottom: 14,
+              color: c.grey, fontSize: 13.5, textDecoration: "none", marginBottom: 18,
             }}>hello@rizeonai.com</a>
+            <address style={{ fontStyle: "normal", color: c.grey, fontSize: 13.5, lineHeight: 1.7 }}>
+              60 Paya Lebar Road<br />
+              #06-28 Paya Lebar Square<br />
+              Singapore 409051
+            </address>
           </div>
           <div>
             <span style={{ fontFamily: mono, fontSize: 10.5, color: c.greyDim, letterSpacing: 2.5, textTransform: "uppercase", display: "block", marginBottom: 20 }}>
@@ -1093,7 +1139,7 @@ function ServicesPage({ navigate }) {
               onClick={id === "services" ? (e) => { e.preventDefault(); setMenuOpen(false); window.scrollTo({ top: 0, behavior: "smooth" }); } : goHome("contact")}
               style={{
                 fontFamily: display, fontSize: 26, fontWeight: 500, color: c.white, textDecoration: "none",
-                padding: "16px 0", borderBottom: i < 1 ? `1px solid ${c.border}` : "none", letterSpacing: -0.5,
+                padding: "16px 0", borderBottom: i < 2 ? `1px solid ${c.border}` : "none", letterSpacing: -0.5,
                 opacity: menuOpen ? 1 : 0, transform: menuOpen ? "translateY(0)" : "translateY(12px)",
                 transition: `opacity 0.4s ease ${0.1 + i * 0.06}s, transform 0.4s ease ${0.1 + i * 0.06}s`,
               }}>
@@ -1107,27 +1153,38 @@ function ServicesPage({ navigate }) {
       <section className="section-pad" style={{ padding: "170px 28px 120px" }}>
         <div style={{ maxWidth: 1160, margin: "0 auto" }}>
           <Reveal>
-            <span style={{ fontFamily: mono, fontSize: 12, color: c.purple, letterSpacing: 3, textTransform: "uppercase", fontWeight: 500 }}>Services</span>
+            <span style={{ fontFamily: mono, fontSize: 12, color: c.purple, letterSpacing: 3, textTransform: "uppercase", fontWeight: 500 }}>The Rizeon OS Method</span>
             <h1 style={{
-              fontFamily: display, fontSize: "clamp(42px, 9vw, 104px)",
+              fontFamily: display, fontSize: "clamp(38px, 8vw, 96px)",
               fontWeight: 400, letterSpacing: -3, margin: "26px 0 22px", lineHeight: 1.0,
             }}>
-              Audit. Build.<br />
-              <span style={{ fontWeight: 500 }}>Launch<span style={{ color: c.purple }}>.</span></span>
+              Discover. Design.<br />
+              <span style={{ fontWeight: 500 }}>Deploy. Drive<span style={{ color: c.purple }}>.</span></span>
             </h1>
-            <p style={{ color: c.grey, fontSize: 17, lineHeight: 1.7, maxWidth: 460, margin: "0 0 110px" }}>
-              Three phases. One system, built around how your business already runs.
+            <p style={{ color: c.grey, fontSize: 17, lineHeight: 1.7, maxWidth: 480, margin: "0 0 32px" }}>
+              One system, built around how your business already runs. Delivered in 30 days.
             </p>
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 12,
+              padding: "12px 22px", borderRadius: 99,
+              border: `1px solid rgba(139,92,246,0.4)`, background: "rgba(139,92,246,0.06)",
+              marginBottom: 110,
+            }}>
+              <span style={{ width: 7, height: 7, borderRadius: "50%", background: c.purple }} />
+              <span style={{ fontFamily: display, fontSize: 14, fontWeight: 500, color: c.white }}>
+                30 days. If the business isn't noticeably easier to run, full refund.
+              </span>
+            </div>
           </Reveal>
 
           {[
             {
               n: "01",
-              title: "Audit",
+              title: "Discover",
               tagline: "Find what's leaking.",
-              para: "We map how work actually flows through your business and put a dollar figure on every delay and manual handoff. You get a clear picture of what inefficiency is costing you before anything gets built.",
+              para: "We come on-site with you and your team to map how work actually flows and where the owner has become the bottleneck. You get a clear picture of what inefficiency is costing you before anything gets built.",
               items: [
-                "Full workflow and response-time diagnostic",
+                "On-site workflow and bottleneck mapping",
                 "Revenue-leak analysis, quantified in dollars",
                 "Diagnostic report of key findings",
                 "Fixed-price build roadmap",
@@ -1135,26 +1192,38 @@ function ServicesPage({ navigate }) {
             },
             {
               n: "02",
-              title: "Build",
-              tagline: "Systems shaped around you.",
-              para: "We architect AI infrastructure around your business logic, trained on your protocols and tone. It plugs into the tools you already use and is fully tested before it touches a real customer.",
+              title: "Design",
+              tagline: "Your operating system, mapped.",
+              para: "We design your AI Operating System around how you already work, centralising your knowledge and deciding which repetitive jobs get automated and which get an AI agent. Built on your accounts, so you own it.",
               items: [
-                "Custom infrastructure architecture around your workflows",
-                "AI trained on your protocols and policies",
-                "Integration with your CRM, calendar and WhatsApp",
-                "Sandbox testing before anything goes live",
+                "AI Operating System architecture",
+                "Knowledge centralised in one place",
+                "AI agents scoped to your highest-time tasks",
+                "Trained on your protocols, tone and policies",
               ],
             },
             {
               n: "03",
-              title: "Launch",
+              title: "Deploy",
               tagline: "Live, without disruption.",
-              para: "We deploy in phases inside your live environment with zero disruption to your team. After launch we stay on to monitor, tune and iterate as your business changes.",
+              para: "We build and deploy inside your live environment with zero disruption to your team. Everything is tested before it touches a real customer, then rolled out in phases.",
               items: [
-                "Phased rollout into your live workflows",
-                "Team onboarding and handover documentation",
+                "Built on your own accounts and tools",
+                "Integration with your CRM, calendar and WhatsApp",
+                "Sandbox testing before anything goes live",
+                "Phased rollout with team onboarding",
+              ],
+            },
+            {
+              n: "04",
+              title: "Drive",
+              tagline: "Momentum, not maintenance.",
+              para: "After launch we stay on to monitor, tune and iterate as your business changes, so the system keeps compounding instead of going stale. You set direction; the system runs the operation.",
+              items: [
                 "Performance monitoring and weekly tuning",
-                "Ongoing support and iteration",
+                "Ongoing iteration as you grow",
+                "New agents added as needs emerge",
+                "Handover documentation and support",
               ],
             },
           ].map((svc, si) => (
@@ -1207,8 +1276,15 @@ function ServicesPage({ navigate }) {
               <span style={{ fontFamily: display, fontSize: 14, fontWeight: 600, letterSpacing: 2.5 }}>RIZEON AI</span>
             </span>
             <p style={{ color: c.grey, fontSize: 13.5, lineHeight: 1.8, margin: 0, maxWidth: 280 }}>
-              An AI consultancy in Singapore building AI infrastructure for professional service firms.
+              An AI consultancy in Singapore building AI infrastructure for professional service firms and private healthcare providers.
             </p>
+            <a href="https://www.linkedin.com/company/rizeonai" target="_blank" rel="noopener noreferrer" aria-label="Rizeon AI on LinkedIn" style={{
+              display: "inline-flex", alignItems: "center", gap: 8, marginTop: 18,
+              color: c.grey, fontSize: 13, textDecoration: "none", fontFamily: mono, letterSpacing: 1,
+            }}>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+              LinkedIn
+            </a>
           </div>
           <div>
             <span style={{ fontFamily: mono, fontSize: 10.5, color: c.greyDim, letterSpacing: 2.5, textTransform: "uppercase", display: "block", marginBottom: 20 }}>Index</span>
@@ -1217,7 +1293,12 @@ function ServicesPage({ navigate }) {
           </div>
           <div>
             <span style={{ fontFamily: mono, fontSize: 10.5, color: c.greyDim, letterSpacing: 2.5, textTransform: "uppercase", display: "block", marginBottom: 20 }}>Contact</span>
-            <a href="mailto:hello@rizeonai.com" className="link-slide" style={{ display: "block", width: "fit-content", color: c.grey, fontSize: 13.5, textDecoration: "none", marginBottom: 14 }}>hello@rizeonai.com</a>
+            <a href="mailto:hello@rizeonai.com" className="link-slide" style={{ display: "block", width: "fit-content", color: c.grey, fontSize: 13.5, textDecoration: "none", marginBottom: 18 }}>hello@rizeonai.com</a>
+            <address style={{ fontStyle: "normal", color: c.grey, fontSize: 13.5, lineHeight: 1.7 }}>
+              60 Paya Lebar Road<br />
+              #06-28 Paya Lebar Square<br />
+              Singapore 409051
+            </address>
           </div>
           <div>
             <span style={{ fontFamily: mono, fontSize: 10.5, color: c.greyDim, letterSpacing: 2.5, textTransform: "uppercase", display: "block", marginBottom: 20 }}>Legal</span>
@@ -1376,9 +1457,191 @@ function AuditPage({ navigate }) {
   );
 }
 
+
+// ─── SHARED: minimal page chrome for content pages ───
+function PageNav({ navigate }) {
+  return (
+    <nav style={{
+      position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
+      padding: "18px 28px",
+      display: "flex", alignItems: "center", justifyContent: "space-between",
+      background: "rgba(10,10,10,0.85)", backdropFilter: "blur(20px)",
+      borderBottom: `1px solid ${c.border}`,
+    }}>
+      <span style={{ display: "flex", alignItems: "center", gap: 11, cursor: "pointer" }}
+        onClick={() => navigate("/")}>
+        <img src={LOGO} alt="Rizeon AI" style={{ height: 24, width: "auto", display: "block" }} />
+        <span style={{ fontFamily: display, fontSize: 15, fontWeight: 600, letterSpacing: 2.5 }}>RIZEON AI</span>
+      </span>
+      <div style={{ display: "flex", gap: 26, alignItems: "center" }}>
+        <a href="/insights" onClick={(e) => { e.preventDefault(); navigate("/insights"); }} className="link-slide"
+          style={{ color: c.grey, fontSize: 13, textDecoration: "none", fontWeight: 500, cursor: "pointer" }}>Insights</a>
+        <a href="/audit" onClick={(e) => { e.preventDefault(); navigate("/audit"); }} className="btn-fill btn-fill-light nav-cta-mobile"
+          style={{ color: c.bg, background: c.white, textDecoration: "none", fontFamily: display, fontSize: 13, fontWeight: 600, padding: "11px 24px", borderRadius: 99, cursor: "pointer", whiteSpace: "nowrap" }}>Book a call</a>
+      </div>
+    </nav>
+  );
+}
+
+function PageFooter({ navigate }) {
+  return (
+    <footer style={{ borderTop: `1px solid ${c.border}`, marginTop: 40 }}>
+      <div style={{ maxWidth: 1160, margin: "0 auto", padding: "24px 28px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
+        <p style={{ color: c.greyDim, fontSize: 11.5, margin: 0, fontFamily: mono, letterSpacing: 1 }}>© 2026 RIZEON AI</p>
+        <div style={{ display: "flex", gap: 24 }}>
+          <a href="/insights" onClick={(e) => { e.preventDefault(); navigate("/insights"); }} style={{ color: c.greyDim, fontSize: 11.5, fontFamily: mono, letterSpacing: 1, textDecoration: "none", cursor: "pointer" }}>INSIGHTS</a>
+          <a href="/privacy" onClick={(e) => { e.preventDefault(); navigate("/privacy"); }} style={{ color: c.greyDim, fontSize: 11.5, fontFamily: mono, letterSpacing: 1, textDecoration: "none", cursor: "pointer" }}>PRIVACY</a>
+          <a href="/terms" onClick={(e) => { e.preventDefault(); navigate("/terms"); }} style={{ color: c.greyDim, fontSize: 11.5, fontFamily: mono, letterSpacing: 1, textDecoration: "none", cursor: "pointer" }}>TERMS</a>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ─── INSIGHTS INDEX (/insights) ───
+function BlogIndex({ navigate }) {
+  useEffect(() => { window.scrollTo(0, 0); }, []);
+  return (
+    <div style={{ background: c.bg, color: c.white, fontFamily: body, minHeight: "100vh", overflowX: "hidden" }}>
+      <GlobalStyle />
+      <PageNav navigate={navigate} />
+      <main style={{ maxWidth: 900, margin: "0 auto", padding: "150px 28px 100px" }}>
+        <span style={{ fontFamily: mono, fontSize: 12, color: c.purple, letterSpacing: 3, textTransform: "uppercase", fontWeight: 500 }}>Insights</span>
+        <h1 style={{ fontFamily: display, fontSize: "clamp(38px, 6.5vw, 68px)", fontWeight: 500, letterSpacing: -2, margin: "22px 0 18px", lineHeight: 1.03 }}>
+          On AI in Singapore<span style={{ color: c.purple }}>.</span>
+        </h1>
+        <p style={{ color: c.grey, fontSize: 17, lineHeight: 1.7, maxWidth: 520, margin: "0 0 72px" }}>
+          Research and practical thinking on AI implementation for professional service firms and private healthcare in Singapore.
+        </p>
+        <div>
+          {POSTS.map((post, i) => (
+            <a key={post.slug} href={"/insights/" + post.slug}
+              onClick={(e) => { e.preventDefault(); navigate("/insights/" + post.slug); }}
+              style={{
+                display: "block", textDecoration: "none", color: "inherit",
+                padding: "34px 0", borderTop: `1px solid ${c.border}`,
+                borderBottom: i === POSTS.length - 1 ? `1px solid ${c.border}` : "none",
+                cursor: "pointer", transition: "padding-left 0.4s cubic-bezier(0.2,0.7,0.2,1)",
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.paddingLeft = "12px"}
+              onMouseLeave={(e) => e.currentTarget.style.paddingLeft = "0"}>
+              <div style={{ display: "flex", gap: 14, alignItems: "center", marginBottom: 14 }}>
+                <span style={{ fontFamily: mono, fontSize: 11, color: c.greyDim, letterSpacing: 1.5 }}>{post.dateLabel}</span>
+                <span style={{ color: c.greyDim }}>·</span>
+                <span style={{ fontFamily: mono, fontSize: 11, color: c.greyDim, letterSpacing: 1.5 }}>{post.readTime}</span>
+              </div>
+              <h2 style={{ fontFamily: display, fontSize: "clamp(22px, 3vw, 30px)", fontWeight: 500, letterSpacing: -0.8, margin: "0 0 12px", lineHeight: 1.2 }}>
+                {post.title}
+              </h2>
+              <p style={{ color: c.grey, fontSize: 15, lineHeight: 1.7, margin: "0 0 14px", maxWidth: 640 }}>
+                {post.description}
+              </p>
+              <span style={{ fontFamily: display, fontSize: 13.5, fontWeight: 500, color: c.purple }}>Read article →</span>
+            </a>
+          ))}
+        </div>
+      </main>
+      <PageFooter navigate={navigate} />
+    </div>
+  );
+}
+
+// ─── BLOG POST (/insights/:slug) ───
+function BlogPost({ navigate, slug }) {
+  const post = getPost(slug);
+  useEffect(() => { window.scrollTo(0, 0); }, [slug]);
+  if (!post) {
+    return (
+      <div style={{ background: c.bg, color: c.white, fontFamily: body, minHeight: "100vh" }}>
+        <GlobalStyle />
+        <PageNav navigate={navigate} />
+        <main style={{ maxWidth: 720, margin: "0 auto", padding: "180px 28px 120px", textAlign: "center" }}>
+          <h1 style={{ fontFamily: display, fontSize: 40, fontWeight: 500 }}>Article not found</h1>
+          <p style={{ color: c.grey, marginTop: 16 }}>
+            <a href="/insights" onClick={(e) => { e.preventDefault(); navigate("/insights"); }} style={{ color: c.purple, textDecoration: "none" }}>Back to Insights →</a>
+          </p>
+        </main>
+        <PageFooter navigate={navigate} />
+      </div>
+    );
+  }
+
+  const shareUrl = "https://rizeonai.com/insights/" + post.slug;
+  const shares = [
+    ["LinkedIn", "https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(shareUrl)],
+    ["X", "https://twitter.com/intent/tweet?url=" + encodeURIComponent(shareUrl) + "&text=" + encodeURIComponent(post.title)],
+    ["WhatsApp", "https://wa.me/?text=" + encodeURIComponent(post.title + " " + shareUrl)],
+  ];
+
+  const render = (block, i) => {
+    if (block.type === "h2") return <h2 key={i} style={{ fontFamily: display, fontSize: "clamp(24px, 3.5vw, 34px)", fontWeight: 500, letterSpacing: -1, margin: "56px 0 18px", lineHeight: 1.15 }}>{block.text}</h2>;
+    if (block.type === "h3") return <h3 key={i} style={{ fontFamily: display, fontSize: 20, fontWeight: 600, letterSpacing: -0.4, margin: "36px 0 12px" }}>{block.text}</h3>;
+    if (block.type === "p") return <p key={i} style={{ color: "rgba(245,245,243,0.85)", fontSize: 16.5, lineHeight: 1.85, margin: "0 0 22px" }}>{block.text}</p>;
+    if (block.type === "ul") return <ul key={i} style={{ margin: "0 0 22px", paddingLeft: 0, listStyle: "none" }}>{block.items.map((it, j) => (
+      <li key={j} style={{ display: "flex", gap: 14, alignItems: "baseline", padding: "12px 0", borderBottom: `1px solid ${c.border}` }}>
+        <span style={{ color: c.purple, fontFamily: mono, fontSize: 12, flexShrink: 0 }}>{String(j + 1).padStart(2, "0")}</span>
+        <span style={{ color: "rgba(245,245,243,0.85)", fontSize: 15.5, lineHeight: 1.7 }}>{it}</span>
+      </li>
+    ))}</ul>;
+    if (block.type === "quote") return <blockquote key={i} style={{ margin: "40px 0", padding: "8px 0 8px 28px", borderLeft: `2px solid ${c.purple}`, fontFamily: display, fontSize: "clamp(20px, 2.6vw, 26px)", fontWeight: 500, lineHeight: 1.4, letterSpacing: -0.5, color: c.white }}>{block.text}</blockquote>;
+    if (block.type === "stat") return <div key={i} style={{ margin: "36px 0", padding: "32px", border: `1px solid ${c.border}`, borderRadius: 12, background: c.panel, textAlign: "center" }}>
+      <div style={{ fontFamily: display, fontSize: "clamp(48px, 8vw, 72px)", fontWeight: 500, letterSpacing: -2, color: c.purple, lineHeight: 1 }}>{block.big}</div>
+      <div style={{ color: c.grey, fontSize: 14, marginTop: 12, fontFamily: mono, letterSpacing: 0.5 }}>{block.small}</div>
+    </div>;
+    return null;
+  };
+
+  return (
+    <div style={{ background: c.bg, color: c.white, fontFamily: body, minHeight: "100vh", overflowX: "hidden" }}>
+      <GlobalStyle />
+      <PageNav navigate={navigate} />
+      <article style={{ maxWidth: 720, margin: "0 auto", padding: "140px 28px 80px" }}>
+        <a href="/insights" onClick={(e) => { e.preventDefault(); navigate("/insights"); }} style={{ fontFamily: mono, fontSize: 12, color: c.greyDim, letterSpacing: 1.5, textDecoration: "none" }}>← Insights</a>
+        <div style={{ display: "flex", gap: 14, alignItems: "center", margin: "28px 0 20px" }}>
+          <span style={{ fontFamily: mono, fontSize: 11.5, color: c.purple, letterSpacing: 1.5 }}>{post.dateLabel}</span>
+          <span style={{ color: c.greyDim }}>·</span>
+          <span style={{ fontFamily: mono, fontSize: 11.5, color: c.greyDim, letterSpacing: 1.5 }}>{post.readTime}</span>
+        </div>
+        <h1 style={{ fontFamily: display, fontSize: "clamp(32px, 5vw, 48px)", fontWeight: 500, letterSpacing: -1.6, margin: "0 0 40px", lineHeight: 1.12 }}>
+          {post.title}
+        </h1>
+
+        {post.body.map(render)}
+
+        {post.sources && (
+          <div style={{ marginTop: 56, paddingTop: 28, borderTop: `1px solid ${c.border}` }}>
+            <span style={{ fontFamily: mono, fontSize: 11, color: c.greyDim, letterSpacing: 2.5, textTransform: "uppercase", display: "block", marginBottom: 16 }}>Sources</span>
+            {post.sources.map(([label, url], i) => (
+              <a key={i} href={url} target="_blank" rel="noopener noreferrer" style={{ display: "block", color: c.grey, fontSize: 13.5, textDecoration: "none", marginBottom: 10, lineHeight: 1.5 }}>{label} →</a>
+            ))}
+          </div>
+        )}
+
+        <div style={{ marginTop: 48, paddingTop: 28, borderTop: `1px solid ${c.border}`, display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+          <span style={{ fontFamily: mono, fontSize: 11, color: c.greyDim, letterSpacing: 2, textTransform: "uppercase" }}>Share</span>
+          {shares.map(([label, url]) => (
+            <a key={label} href={url} target="_blank" rel="noopener noreferrer" style={{ fontFamily: display, fontSize: 13.5, fontWeight: 500, color: c.grey, textDecoration: "none", padding: "8px 16px", border: `1px solid ${c.border}`, borderRadius: 99, transition: "border-color 0.3s, color 0.3s" }}
+              onMouseEnter={(e) => { e.currentTarget.style.borderColor = c.purple; e.currentTarget.style.color = c.white; }}
+              onMouseLeave={(e) => { e.currentTarget.style.borderColor = c.border; e.currentTarget.style.color = c.grey; }}>{label}</a>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <div style={{ marginTop: 64, padding: "44px 36px", border: `1px solid ${c.border}`, borderRadius: 14, background: c.panel, textAlign: "center" }}>
+          <h2 style={{ fontFamily: display, fontSize: 26, fontWeight: 500, letterSpacing: -0.8, margin: "0 0 12px" }}>See where AI fits your operation</h2>
+          <p style={{ color: c.grey, fontSize: 15, lineHeight: 1.7, margin: "0 auto 28px", maxWidth: 420 }}>Book a 30-minute audit call. We'll map where your firm is losing time and revenue. No commitment, no pitch.</p>
+          <a href="/audit" onClick={(e) => { e.preventDefault(); navigate("/audit"); }} className="btn-fill btn-fill-light"
+            style={{ display: "inline-block", background: c.white, color: c.bg, textDecoration: "none", fontFamily: display, padding: "16px 40px", borderRadius: 99, fontSize: 15, fontWeight: 500, cursor: "pointer" }}>Book your audit call</a>
+        </div>
+      </article>
+      <PageFooter navigate={navigate} />
+    </div>
+  );
+}
+
 // ─── ROUTER ───
 export default function App() {
-  const [path, setPath] = useState(window.location.pathname);
+  const [path, setPath] = useState(typeof window !== "undefined" ? window.location.pathname : "/");
 
   const navigate = (to, hash) => {
     if (to !== window.location.pathname) {
@@ -1405,14 +1668,22 @@ export default function App() {
   useEffect(() => {
     const titles = {
       "/": "Rizeon AI",
+      "/insights": "Rizeon AI | Insights",
       "/services": "Rizeon AI | Services",
       "/audit": "Rizeon AI | Book a Call",
       "/privacy": "Rizeon AI | Privacy Policy",
       "/terms": "Rizeon AI | Terms of Service",
     };
-    document.title = titles[path] || "Rizeon AI";
+    if (path.startsWith("/insights/")) {
+      const p = getPost(path.replace("/insights/", ""));
+      document.title = p ? "Rizeon AI | " + p.title : "Rizeon AI | Insights";
+    } else {
+      document.title = titles[path] || "Rizeon AI";
+    }
   }, [path]);
 
+  if (path === "/insights") return <BlogIndex navigate={navigate} />;
+  if (path.startsWith("/insights/")) return <BlogPost navigate={navigate} slug={path.replace("/insights/", "")} />;
   if (path === "/audit") return <AuditPage navigate={navigate} />;
   if (path === "/services") return <ServicesPage navigate={navigate} />;
   if (path === "/privacy") return <LegalPage navigate={navigate} kind="privacy" />;

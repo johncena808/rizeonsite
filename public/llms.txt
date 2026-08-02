@@ -1,6 +1,14 @@
 # Rizeon AI
 
-> Rizeon AI is an AI consultancy based in Singapore that builds AI infrastructure for professional service firms. We automate the repetitive operations that cost owners the most time and revenue: lead response and qualification, client communication and follow-up, and admin and data operations.
+> Rizeon AI is an AI consultancy in Singapore that builds AI operating systems for service businesses, including professional service firms and private healthcare providers. We build a custom AI Operating System that centralises a firm's knowledge, automates repetitive admin, and puts AI agents on the highest-time jobs. Our one-line positioning: we build AI operating systems for service businesses, so your business stops running on you and starts running on systems.
+
+## Positioning
+
+Rizeon AI is an AI implementation and AI consultancy partner in Singapore, focused on redesigning and transforming business operations around AI. We are not a tool vendor. We build a custom AI Operating System around a firm's real workflows, on-site with the owner and team, on the firm's own accounts so they own it.
+
+## The problem we solve
+
+The owner is the bottleneck: every lead, follow-up, question and decision runs through one person, so the business cannot grow past them. Most firms already bought AI tools and nothing changed, because the tools were added on top of the mess instead of built into how the business runs.
 
 ## What we do
 
@@ -11,24 +19,35 @@
 
 ## Who we serve
 
-Professional service firms in Singapore: law firms, recruitment agencies, aesthetic clinics, accounting practices, property and real estate agencies, and insurance firms.
+Professional service firms and private healthcare providers in Singapore: law firms, recruitment agencies, accounting practices, property and real estate agencies, insurance firms, specialist clinics and aesthetic practices.
 
-## How we work
+## How we work: the Rizeon OS Method
 
-1. Audit: workflow and response-time diagnostic, revenue-leak analysis quantified in dollars, diagnostic report, and a fixed-price build roadmap.
-2. Build: custom AI infrastructure around the firm's business logic, integrated with existing CRM, calendar and WhatsApp. Sandbox tested before launch.
-3. Launch: phased rollout with zero disruption, team onboarding, performance monitoring and ongoing support.
+Delivered in 30 days, with a full-refund guarantee if the business is not noticeably easier to run.
+1. Discover: on-site workflow and bottleneck mapping, revenue-leak analysis quantified in dollars, diagnostic report, fixed-price build roadmap.
+2. Design: AI Operating System architecture, knowledge centralised, AI agents scoped to the highest-time tasks, trained on the firm's protocols and tone.
+3. Deploy: built on the firm's own accounts, integrated with CRM, calendar and WhatsApp, sandbox tested, phased rollout with team onboarding.
+4. Drive: performance monitoring, weekly tuning, ongoing iteration, new agents added as needs emerge.
 
 ## Key facts
 
 - Based in Singapore, founded 2025
+- AI consultancy and AI implementation partner for professional services and private healthcare
 - Deployment timeline: typically 2 to 3 weeks from audit to live
 - No data migration required; systems wrap around the existing software stack
 - PDPA compliant; strict AI guardrails with human escalation
 - Fixed, predictable pricing; no per-message or per-user fees
+- Grant context: work may qualify for Singapore's PSG and EDG grants for AI and process redesign
+
+## Insights
+
+- AI Implementation in Singapore 2026: Why 96% of Firms Haven't Embedded AI Yet. https://rizeonai.com/insights/ai-implementation-singapore-2026
 
 ## Contact
 
 - Website: https://rizeonai.com
 - Services: https://rizeonai.com/services
+- Insights: https://rizeonai.com/insights
+- Book a call: https://rizeonai.com/audit
 - Email: hello@rizeonai.com
+- LinkedIn: https://www.linkedin.com/company/rizeonai
