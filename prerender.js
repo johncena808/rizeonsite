@@ -158,14 +158,21 @@ const blockToHtml = (b) => {
 // Insights index page
 {
   let html = template;
-  html = html.replace(/<title>.*?<\/title>/, `<title>Rizeon AI | Insights</title>`);
-  html = html.replace(/<meta name="description" content=".*?" \/>/,
-    `<meta name="description" content="Research and practical thinking on AI implementation for professional service firms and private healthcare in Singapore." />`);
-  html = html.replace(/<link rel="canonical" href=".*?" \/>/, `<link rel="canonical" href="https://rizeonai.com/insights" />`);
+  const insTitle = "Rizeon AI | Insights";
+  const insDesc = "Research and practical thinking on AI implementation for professional service firms and private healthcare in Singapore.";
+  const insUrl = "https://rizeonai.com/insights";
+  html = html.replace(/<title>.*?<\/title>/, `<title>${insTitle}</title>`);
+  html = html.replace(/<meta name="description" content=".*?" \/>/, `<meta name="description" content="${insDesc}" />`);
+  html = html.replace(/<link rel="canonical" href=".*?" \/>/, `<link rel="canonical" href="${insUrl}" />`);
+  html = html.replace(/<meta property="og:title" content=".*?" \/>/, `<meta property="og:title" content="${insTitle}" />`);
+  html = html.replace(/<meta property="og:url" content=".*?" \/>/, `<meta property="og:url" content="${insUrl}" />`);
+  html = html.replace(/<meta property="og:description" content=".*?" \/>/, `<meta property="og:description" content="${insDesc}" />`);
+  html = html.replace(/<meta name="twitter:title" content=".*?" \/>/, `<meta name="twitter:title" content="${insTitle}" />`);
+  html = html.replace(/<meta name="twitter:description" content=".*?" \/>/, `<meta name="twitter:description" content="${insDesc}" />`);
   const list = BLOG_POSTS.map((p) =>
     `<article><h2><a href="/insights/${p.slug}">${esc(p.title)}</a></h2><p>${esc(p.description)}</p></article>`
   ).join("");
-  const body = `<h1>Insights on AI in Singapore</h1><p>Research and practical thinking on AI implementation for professional service firms and private healthcare in Singapore.</p>${list}<p><a href="/">Home</a> &middot; <a href="/services">Services</a> &middot; <a href="/audit">Book a call</a></p>`;
+  const body = `<h1>Insights on AI in Singapore</h1><p>${insDesc}</p>${list}<p><a href="/">Home</a> &middot; <a href="/services">Services</a> &middot; <a href="/audit">Book a call</a></p>`;
   html = html.replace(/(<body>)/, `$1\n    ${seoWrap(body)}`);
   mkdirSync(join(dist, "insights"), { recursive: true });
   writeFileSync(join(dist, "insights", "index.html"), html, "utf-8");
