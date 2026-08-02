@@ -1641,9 +1641,16 @@ function BlogPost({ navigate, slug }) {
 
 // ─── ROUTER ───
 export default function App() {
-  const [path, setPath] = useState(typeof window !== "undefined" ? window.location.pathname : "/");
+  // Strip a trailing slash from any path except the root ("/") itself, so
+  // "/insights/" and "/insights" are always treated identically downstream.
+  // Without this, "/insights/" fails the exact "/insights" check, falls into
+  // the "/insights/:slug" branch with an empty slug, and renders as a
+  // missing article instead of the index.
+  const normalize = (p) => (p.length > 1 && p.endsWith("/") ? p.slice(0, -1) : p);
+  const [path, setPath] = useState(typeof window !== "undefined" ? normalize(window.location.pathname) : "/");
 
   const navigate = (to, hash) => {
+    to = normalize(to);
     if (to !== window.location.pathname) {
       window.history.pushState({}, "", to);
       setPath(to);
@@ -1660,7 +1667,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    const onPop = () => setPath(window.location.pathname);
+    const onPop = () => setPath(normalize(window.location.pathname));
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
   }, []);
