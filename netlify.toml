@@ -2,6 +2,38 @@
   command = "npm run build"
   publish = "dist"
 
+# ── Canonicalize: redirect any trailing-slash version to the no-slash
+# version first (301), so search engines and crawlers only ever see one
+# canonical URL per page. These must come before the 200 rewrites below.
+[[redirects]]
+  from = "/services/"
+  to = "/services"
+  status = 301
+[[redirects]]
+  from = "/audit/"
+  to = "/audit"
+  status = 301
+[[redirects]]
+  from = "/privacy/"
+  to = "/privacy"
+  status = 301
+[[redirects]]
+  from = "/terms/"
+  to = "/terms"
+  status = 301
+[[redirects]]
+  from = "/insights/"
+  to = "/insights"
+  status = 301
+# Named param (not splat) avoids the double-slash bug the old /insights/*
+# rule had: a trailing-slash post URL now matches THIS rule first (301
+# strips the slash) rather than falling through with an empty splat.
+[[redirects]]
+  from = "/insights/:slug/"
+  to = "/insights/:slug"
+  status = 301
+
+# ── Serve the prerendered HTML for each known route. ──
 [[redirects]]
   from = "/services"
   to = "/services/index.html"
@@ -23,10 +55,11 @@
   to = "/insights/index.html"
   status = 200
 [[redirects]]
-  from = "/insights/*"
-  to = "/insights/:splat/index.html"
+  from = "/insights/:slug"
+  to = "/insights/:slug/index.html"
   status = 200
 
+# ── SPA fallback for anything else. ──
 [[redirects]]
   from = "/*"
   to = "/index.html"
